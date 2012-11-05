@@ -1,5 +1,8 @@
 package mytld.mycompany.myapp;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class Settings {
 	private boolean fooEnabled;
 
