@@ -1,10 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+													http://www.springframework.org/schema/context  http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
 
 	<description>Example configuration to get you started.</description>
 
+	<context:component-scan   base-package="com.dearshor.research.testdrive, mytld.mycompany.myapp" />
+
 	<bean id="service" class="mytld.mycompany.myapp.ExampleService" />
+
+	<bean id="jaxb2Marshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+		<property name="classesToBeBound">
+			<list>
+				<value>mytld.mycompany.myapp.Settings</value>
+			</list>
+		</property>
+		<!-- <property name="schema" value="classpath:org/springframework/oxm/schema.xsd"/> -->
+	</bean>
+
+	<bean id="castorMarshaller" class="org.springframework.oxm.castor.CastorMarshaller"/>
+	
 
 </beans>
