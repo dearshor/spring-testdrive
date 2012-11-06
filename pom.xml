@@ -84,24 +84,24 @@
 		<outputDirectory>${project.basedir}/target/classes</outputDirectory>
 		<testOutputDirectory>${project.basedir}/target/test-classes</testOutputDirectory>
 		<resources>
-			<resource>
-				<directory>${project.basedir}/src/main/java</directory>
+			<!-- <resource> -->
+				<!-- <directory>${project.basedir}/src/main/java</directory> -->
 				<!-- 忽略这个目录中的所有文件，因为真正的java源代码将由resources:copy-resources 处理。
 						在maven资源目录列表里保留这个目录的目的是，eclipse等IDE可以将这个目录设置为“源文件目录”，
 						以便让eclipse的自动构建能够工作 -->
-				<excludes>
+				<!-- <excludes>
 					<exclude>**/*</exclude>
-				</excludes>
-			</resource>
+				</excludes> -->
+			<!-- </resource> -->
 			<resource>
 				<directory>${project.basedir}/src/main/resources</directory>
 			</resource>
-			<resource>
+			<!-- <resource>
 				<directory>${project.build.directory}/generated-sources/jaxb</directory>
 				<excludes>
 					<exclude>**/*</exclude>
 				</excludes>
-			</resource>
+			</resource> -->
 			<resource>
 				<directory>${project.basedir}/src/main/xsd</directory>
 			</resource>
