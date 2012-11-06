@@ -16,6 +16,8 @@ import org.springframework.oxm.Marshaller;
 import org.springframework.oxm.Unmarshaller;
 import org.springframework.stereotype.Service;
 
+import com.example.myschema.JobSchedulingData;
+
 @Service
 public class MarshallingService {
 	
@@ -33,11 +35,11 @@ public class MarshallingService {
 		this.unmarshaller = unmarshaller;
 	}
 
-	public void saveSettings(File settingsFile, Settings settings) throws IOException {
+	public <T> void saveSettings(File settingsFile, T  jobSchedulingData) throws IOException {
 		FileOutputStream os = null;
 		try {
 			os = new FileOutputStream(settingsFile);
-			this.marshaller.marshal(settings, new StreamResult(os));
+			this.marshaller.marshal(jobSchedulingData, new StreamResult(os));
 		} finally {
 			if (os != null) {
 				os.close();
@@ -45,11 +47,12 @@ public class MarshallingService {
 		}
 	}
 
-	public void loadSettings(File settingsFile, Settings settings) throws IOException {
+	@SuppressWarnings("unchecked")
+	public <T> void loadSettings(File settingsFile, T jobSchedulingData) throws IOException {
 		FileInputStream is = null;
 		try {
 			is = new FileInputStream(settingsFile);
-			settings = (Settings) this.unmarshaller
+			jobSchedulingData = (T) this.unmarshaller
 					.unmarshal(new StreamSource(is));
 		} finally {
 			if (is != null) {

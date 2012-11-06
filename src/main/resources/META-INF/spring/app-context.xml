@@ -15,10 +15,11 @@
 	<bean id="jaxb2Marshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
 		<property name="classesToBeBound">
 			<list>
-				<value>mytld.mycompany.myapp.Settings</value>
+				<value>com.example.myschema.JobSchedulingData</value>
 			</list>
 		</property>
 		<!-- <property name="schema" value="classpath:org/springframework/oxm/schema.xsd"/> -->
+		<property name="schema" value="classpath:job_scheduling_data_2_0.xsd"/>
 	</bean>
 
 	<bean id="castorMarshaller" class="org.springframework.oxm.castor.CastorMarshaller"/>

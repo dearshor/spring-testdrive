@@ -17,8 +17,6 @@ package mytld.mycompany.myapp;
 
 import static org.junit.Assert.assertNotNull;
 
-import mytld.mycompany.myapp.Service;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

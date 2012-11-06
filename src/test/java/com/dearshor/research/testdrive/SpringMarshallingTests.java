@@ -1,25 +1,18 @@
 package com.dearshor.research.testdrive;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 
 import javax.annotation.PostConstruct;
-import javax.xml.transform.stream.StreamResult;
-import javax.xml.transform.stream.StreamSource;
-
-import mytld.mycompany.myapp.Settings;
 
 import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.oxm.Marshaller;
-import org.springframework.oxm.Unmarshaller;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import com.example.myschema.JobSchedulingData;
 
 @ContextConfiguration
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -32,10 +25,14 @@ public class SpringMarshallingTests {
 	@Autowired
 	private MarshallingService marshallingService;
 
-	private Settings settings = new Settings();
+	private JobSchedulingData jobSchedulingData;
 
 	@PostConstruct
 	public void setup() {
+		jobSchedulingData = new JobSchedulingData();
+//		jobSchedulingData.getPreProcessingCommandsAndProcessingDirectivesAndSchedule()
+		
+		
 		if (StringUtils.isEmpty(settingsDir)) {
 			File defaultSettingsDir = new File(new StringBuilder(
 					System.getProperty("user.dir")).append(File.separator)
@@ -53,12 +50,12 @@ public class SpringMarshallingTests {
 
 	@Test
 	public void testSaveSettings() throws IOException {
-		marshallingService.saveSettings(settingsFile, settings);
+		marshallingService.saveSettings(settingsFile, jobSchedulingData);
 	}
 
 	@Test
 	public void testLoadSettings() throws IOException {
-		marshallingService.loadSettings(settingsFile, settings);
+		marshallingService.loadSettings(settingsFile, jobSchedulingData);
 	}
 
 }
