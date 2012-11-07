@@ -8,15 +8,12 @@ import java.io.IOException;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
-import mytld.mycompany.myapp.Settings;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.oxm.Marshaller;
 import org.springframework.oxm.Unmarshaller;
+import org.springframework.oxm.XmlMappingException;
 import org.springframework.stereotype.Service;
-
-import com.example.myschema.JobSchedulingData;
 
 @Service
 public class MarshallingService {
@@ -48,12 +45,13 @@ public class MarshallingService {
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T> void loadSettings(File settingsFile, T jobSchedulingData) throws IOException {
+	public <T> T loadSettings(File settingsFile, T jobSchedulingData) throws IOException, XmlMappingException {
 		FileInputStream is = null;
 		try {
 			is = new FileInputStream(settingsFile);
 			jobSchedulingData = (T) this.unmarshaller
 					.unmarshal(new StreamSource(is));
+			return jobSchedulingData;
 		} finally {
 			if (is != null) {
 				is.close();

@@ -20,7 +20,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.6</maven.compiler.source>
 		<maven.compiler.target>1.6</maven.compiler.target>
-		
+
 		<staged-sources-dir>${project.build.directory}/staged-sources</staged-sources-dir>
 	</properties>
 	<profiles>
@@ -29,6 +29,29 @@
 			<properties>
 				<maven.test.failure.ignore>false</maven.test.failure.ignore>
 			</properties>
+		</profile>
+		<profile>
+			<id>jaxb2-process</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>jaxb2-maven-plugin</artifactId>
+						<version>1.5</version>
+						<executions>
+							<execution>
+								<id>xjc</id>
+								<goals>
+									<goal>xjc</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<packageName>com.example.myschema</packageName> <!-- The name of your generated source package -->
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
 		</profile>
 	</profiles>
 
@@ -78,30 +101,22 @@
 	</dependencies>
 
 	<build>
-		<sourceDirectory>${staged-sources-dir}</sourceDirectory>
-		<scriptSourceDirectory>${project.basedir}/src/main/scripts</scriptSourceDirectory>
-		<testSourceDirectory>${project.basedir}/src/test/java</testSourceDirectory>
-		<outputDirectory>${project.basedir}/target/classes</outputDirectory>
-		<testOutputDirectory>${project.basedir}/target/test-classes</testOutputDirectory>
+		<!-- <sourceDirectory>${staged-sources-dir}</sourceDirectory> -->
+		<!-- <scriptSourceDirectory>${project.basedir}/src/main/scripts</scriptSourceDirectory> 
+			<testSourceDirectory>${project.basedir}/src/test/java</testSourceDirectory> 
+			<outputDirectory>${project.basedir}/target/classes</outputDirectory> <testOutputDirectory>${project.basedir}/target/test-classes</testOutputDirectory> -->
 		<resources>
 			<!-- <resource> -->
-				<!-- <directory>${project.basedir}/src/main/java</directory> -->
-				<!-- 忽略这个目录中的所有文件，因为真正的java源代码将由resources:copy-resources 处理。
-						在maven资源目录列表里保留这个目录的目的是，eclipse等IDE可以将这个目录设置为“源文件目录”，
-						以便让eclipse的自动构建能够工作 -->
-				<!-- <excludes>
-					<exclude>**/*</exclude>
-				</excludes> -->
+			<!-- <directory>${project.basedir}/src/main/java</directory> -->
+			<!-- 忽略这个目录中的所有文件，因为真正的java源代码将由resources:copy-resources 处理。 在maven资源目录列表里保留这个目录的目的是，eclipse等IDE可以将这个目录设置为“源文件目录”， 
+				以便让eclipse的自动构建能够工作 -->
+			<!-- <excludes> <exclude>**/*</exclude> </excludes> -->
 			<!-- </resource> -->
 			<resource>
 				<directory>${project.basedir}/src/main/resources</directory>
 			</resource>
-			<!-- <resource>
-				<directory>${project.build.directory}/generated-sources/jaxb</directory>
-				<excludes>
-					<exclude>**/*</exclude>
-				</excludes>
-			</resource> -->
+			<!-- <resource> <directory>${project.build.directory}/generated-sources/jaxb</directory> 
+				<excludes> <exclude>**/*</exclude> </excludes> </resource> -->
 			<resource>
 				<directory>${project.basedir}/src/main/xsd</directory>
 			</resource>
@@ -122,7 +137,7 @@
 					<artifactId>maven-jar-plugin</artifactId>
 					<configuration>
 						<archive>
-							<manifestFile>target/classes/META-INF/MANIFEST.MF</manifestFile>
+							<manifestFile>${project.build.directory}/classes/META-INF/MANIFEST.MF</manifestFile>
 						</archive>
 					</configuration>
 				</plugin>
@@ -154,44 +169,17 @@
 				</configuration>
 			</plugin>
 
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>jaxb2-maven-plugin</artifactId>
-				<version>1.5</version>
-				<executions>
-					<execution>
-						<id>xjc</id>
-						<goals>
-							<goal>xjc</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<packageName>com.example.myschema</packageName> <!-- The name of your generated source package -->
-				</configuration>
-			</plugin>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
 				<version>2.6</version>
-				<executions>
-					<execution>
-						<id>stage-java-sources</id>
-						<phase>process-sources</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<resources>
-								<resource><directory>${project.basedir}/src/main/java</directory></resource>
-								<resource><directory>${project.build.directory}/generated-sources/jaxb</directory></resource>
-							</resources>
-							<outputDirectory>
-								${staged-sources-dir}
-							</outputDirectory>
-						</configuration>
-					</execution>
-				</executions>
+				<!-- <executions> <execution> <id>stage-java-sources</id> <phase>process-sources</phase> 
+					<goals> <goal>copy-resources</goal> </goals> <configuration> <resources> 
+					<resource><directory>${project.basedir}/src/main/java</directory></resource> 
+					<resource><directory>${project.build.directory}/generated-sources/jaxb</directory></resource> 
+					</resources> <outputDirectory> ${staged-sources-dir} </outputDirectory> </configuration> 
+					</execution> </executions> -->
 			</plugin>
 			<!-- <plugin> <groupId>com.springsource.bundlor</groupId> <artifactId>com.springsource.bundlor.maven</artifactId> 
 				<version>1.0.0.RELEASE</version> <inherited>true</inherited> <executions> 
